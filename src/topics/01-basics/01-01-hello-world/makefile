@@ -1,4 +1,4 @@
-# (автогенерируемый) makefile для задачи
+# Автогенерируемый makefile для задачи
 SHELL := /bin/bash
 CC      ?= clang
 CFLAGS  ?= -std=c11 -Wall -Wextra -Werror -O0 -g
@@ -23,64 +23,23 @@ INCLUDES := -I. -I$(UNITY_I)
 
 .PHONY: format
 format:
-	@clang-format --dry-run --Werror $(SRC_C) $(TEST_C) $(HDRS) 2>/dev/null || (echo "Обнаружены проблемы форматирования. Запустите 'make format-fix' для исправления"; exit 1)
+	@$(ROOT)/scripts/format-task.sh .
 
 .PHONY: format-fix
 format-fix:
-	@clang-format -i $(SRC_C) $(TEST_C) $(HDRS)
-	@echo "Форматирование исправлено"
+	@$(ROOT)/scripts/format-task.sh . fix
 
 .PHONY: clang-tidy
 clang-tidy:
-	@# Попытка найти clang-tidy в различных местах установки
-	@CLANG_TIDY_PATH=""; \
-	if [ -n "$$LLVM_PATH" ]; then \
-	  CLANG_TIDY_PATH="$$LLVM_PATH/bin"; \
-	elif [ -d "/opt/homebrew/opt/llvm/bin" ]; then \
-	  CLANG_TIDY_PATH="/opt/homebrew/opt/llvm/bin"; \
-	elif [ -d "/usr/local/opt/llvm/bin" ]; then \
-	  CLANG_TIDY_PATH="/usr/local/opt/llvm/bin"; \
-	else \
-	  LLVM_DIR=$$(find /usr/lib -maxdepth 2 -name 'llvm-*' -type d 2>/dev/null | \
-	    (sort -V 2>/dev/null || sort) | tail -1); \
-	  if [ -n "$$LLVM_DIR" ] && [ -d "$$LLVM_DIR/bin" ]; then \
-	    CLANG_TIDY_PATH="$$LLVM_DIR/bin"; \
-	  fi; \
-	fi; \
-	if [ -n "$$CLANG_TIDY_PATH" ]; then \
-	  export PATH="$$CLANG_TIDY_PATH:$$PATH"; \
-	fi; \
-	if ! command -v clang-tidy &> /dev/null; then \
-	  echo "Ошибка: clang-tidy не найден."; \
-	  echo "Попробуйте:"; \
-	  echo "  macOS: brew install llvm"; \
-	  echo "  Ubuntu/Debian: sudo apt install clang-tidy"; \
-	  echo "  Arch: sudo pacman -S clang"; \
-	  echo "  Или задайте LLVM_PATH=/path/to/llvm"; \
-	  exit 1; \
-	fi; \
-	exit_code=0; \
-	if ls *.c 1> /dev/null 2>&1; then \
-	  for c_file in *.c; do \
-	    case "$$c_file" in *.test.c) continue ;; esac; \
-	    if ! clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); then \
-	      exit_code=1; \
-	    fi; \
-	  done; \
-	fi; \
-	exit $$exit_code
+	@$(ROOT)/scripts/check-clang-tidy.sh .
 
 .PHONY: check_banned
 check_banned:
-	@if grep -R -nE '\bgets\s*\(' -- *.c *.h >/dev/null 2>&1; then \
-	  echo "Ошибка: обнаружена запрещённая функция 'gets'."; exit 1; fi
+	@$(ROOT)/scripts/check-banned.sh .
 
 .PHONY: check_dynamic
 check_dynamic:
-	@if [ "$(DYN_ALLOC_ALLOWED)" = "0" ]; then \
-	  if grep -R -nE '\b(malloc|calloc|realloc|free)\s*\(' -- *.c *.h >/dev/null 2>&1; then \
-	    echo "Ошибка: использована динамическая память, но она не разрешена для этой задачи."; exit 1; fi; \
-	fi
+	@$(ROOT)/scripts/check-dynamic.sh .
 
 $(BIN): $(SRC_C) $(HDRS)
 	@mkdir -p $(BUILD)
@@ -107,8 +66,7 @@ $(TESTBIN): $(SRC_C) $(TEST_C) $(HDRS)
 
 .PHONY: test
 test: build $(TESTBIN)
-	@if [ ! -f "$(BIN)" ]; then echo "Ошибка: исполняемый файл $(BIN) не найден. Запустите 'make build' сначала."; exit 1; fi
-	@if [ ! -x "$(BIN)" ]; then echo "Ошибка: файл $(BIN) не является исполняемым."; exit 1; fi
+	@$(ROOT)/scripts/check-executable.sh $(BIN)
 	./$(TESTBIN)
 
 .PHONY: valgrind

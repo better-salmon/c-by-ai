@@ -1,8 +1,14 @@
-#include <stdio.h>   // Подключаем библиотеку для работы с вводом/выводом (printf, scanf)
-#include <stdlib.h>  // Подключаем стандартную библиотеку (EXIT_SUCCESS, EXIT_FAILURE)
+/*
+ * Задача: 01-01-hello-world
+ * Подробное описание см. в 01-01-hello-world.readme.md
+ */
+
+#include <stdio.h>   // printf()
+#include <stdlib.h>  // EXIT_SUCCESS
 
 int main(void) {
-  printf("Hello, World!\n");
+  // TODO: Реализуйте программу согласно 01-01-hello-world.readme.md
 
-  return EXIT_SUCCESS;  // Возвращаем 0, сообщая операционной системе об успешном завершении
+  printf("Hello, World!\n");
+  return EXIT_SUCCESS;
 }
