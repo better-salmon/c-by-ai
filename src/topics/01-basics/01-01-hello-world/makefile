@@ -40,8 +40,11 @@ clang-tidy:
 	  CLANG_TIDY_PATH="/opt/homebrew/opt/llvm/bin"; \
 	elif [ -d "/usr/local/opt/llvm/bin" ]; then \
 	  CLANG_TIDY_PATH="/usr/local/opt/llvm/bin"; \
-	elif [ -d "/usr/lib/llvm-*/bin" ]; then \
-	  CLANG_TIDY_PATH=$$(ls -d /usr/lib/llvm-*/bin 2>/dev/null | tail -1); \
+	else \
+	  LLVM_DIR=$$(find /usr/lib -maxdepth 2 -name 'llvm-*' -type d 2>/dev/null | sort -V | tail -1); \
+	  if [ -n "$$LLVM_DIR" ] && [ -d "$$LLVM_DIR/bin" ]; then \
+	    CLANG_TIDY_PATH="$$LLVM_DIR/bin"; \
+	  fi; \
 	fi; \
 	if [ -n "$$CLANG_TIDY_PATH" ]; then \
 	  export PATH="$$CLANG_TIDY_PATH:$$PATH"; \
