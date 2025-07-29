@@ -1,6 +1,5 @@
 ---
 # Конфигурация clang-tidy для проекта обучения C11
-# Эквивалент настроек cppcheck: warning,style,performance,portability
 
 Checks: >
   -*,
