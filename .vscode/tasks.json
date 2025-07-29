@@ -1,0 +1,163 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Current Task",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "build"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Build Debug Current Task",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "debug"
+      ],
+      "group": "build",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Test Current Task",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "test"
+      ],
+      "group": "test",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Clean Current Task",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "clean"
+      ],
+      "group": "build",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Format Current Task",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "format-fix"
+      ],
+      "group": "build",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Build All Tasks",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "build"
+      ],
+      "group": "build",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Test All Tasks",
+      "type": "shell",
+      "command": "make",
+      "args": [
+        "test"
+      ],
+      "group": "test",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    }
+  ]
+}

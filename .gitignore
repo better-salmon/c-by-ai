@@ -1,0 +1,71 @@
+# Build directories
+build/
+*/build/
+**/build/
+
+# Compiled binaries and objects
+*.o
+*.ko
+*.obj
+*.elf
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Libraries and shared objects
+*.lib
+*.a
+*.la
+*.lo
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Debug and intermediate files
+*.d
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.ilk
+*.map
+*.exp
+*.gch
+*.pch
+
+# IDE and editor files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test output
+*.test
+
+# Valgrind output
+*.valgrind
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# debug information files
+*.dwo

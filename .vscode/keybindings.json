@@ -1,0 +1,22 @@
+[
+  {
+    "key": "cmd+shift+b",
+    "command": "workbench.action.tasks.build"
+  },
+  {
+    "key": "f5",
+    "command": "workbench.action.debug.start"
+  },
+  {
+    "key": "cmd+f5",
+    "command": "workbench.action.debug.run"
+  },
+  {
+    "key": "shift+f5",
+    "command": "workbench.action.debug.stop"
+  },
+  {
+    "key": "cmd+shift+f5",
+    "command": "workbench.action.debug.restart"
+  }
+]

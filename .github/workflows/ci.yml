@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          brew update
+          brew install cppcheck clang-format
+
+      - name: Verify tools installation
+        run: |
+          echo "=== Проверка установленных инструментов ==="
+          clang --version
+          cppcheck --version
+          clang-format --version
+
+      - name: Check clang-format
+        run: scripts/check-format.sh
+
+      - name: cppcheck
+        run: scripts/check-cppcheck.sh
+
+      - name: Build all
+        run: make build
+
+      - name: Test all (sanitizers)
+        run: make test
