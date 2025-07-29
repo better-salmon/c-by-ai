@@ -61,10 +61,9 @@ clang-tidy:
 	exit_code=0; \
 	if ls *.c 1> /dev/null 2>&1; then \
 	  for c_file in *.c; do \
-	    if [[ "$$c_file" != *.test.c ]]; then \
-	      if ! clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); then \
-	        exit_code=1; \
-	      fi; \
+	    case "$$c_file" in *.test.c) continue ;; esac; \
+	    if ! clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); then \
+	      exit_code=1; \
 	    fi; \
 	  done; \
 	fi; \
