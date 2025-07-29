@@ -80,6 +80,23 @@ test: build $(TESTBIN)
 valgrind: $(TESTBIN)
 	@echo "valgrind не доступен на macOS. Используйте санитайзеры (включены в 'make test')."
 
+.PHONY: run
+run: build
+	@echo "==> Запуск программы $(TASK)..."
+	./$(BIN)
+
+.PHONY: demo
+demo: $(DEMOBINS)
+	@if [ -z "$(DEMOBINS)" ]; then \
+	  echo "Демонстрационные программы не найдены. Файлы *.demo.c отсутствуют."; \
+	  exit 1; \
+	fi; \
+	for demo in $(DEMOBINS); do \
+	  echo "==> Запуск демо: $$demo"; \
+	  ./$$demo; \
+	  echo ""; \
+	done
+
 .PHONY: clean
 clean:
 	@rm -rf build
