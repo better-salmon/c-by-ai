@@ -30,12 +30,19 @@ format-fix:
 	@clang-format -i $(SRC_C) $(TEST_C) $(HDRS)
 	@echo "Форматирование исправлено"
 
-.PHONY: cppcheck
-cppcheck:
-	@cppcheck --std=c11 --quiet --error-exitcode=1 \
-	  --enable=warning,style,performance,portability \
-	  --suppress=missingIncludeSystem \
-	  .
+.PHONY: clang-tidy
+clang-tidy:
+	@if [ -d "/opt/homebrew/opt/llvm/bin" ]; then export PATH="/opt/homebrew/opt/llvm/bin:$$PATH"; fi; \
+	if ! command -v clang-tidy &> /dev/null; then \
+	  echo "Ошибка: clang-tidy не найден. Установите через: brew install llvm"; exit 1; \
+	fi; \
+	if ls *.c 1> /dev/null 2>&1; then \
+	  for c_file in *.c; do \
+	    if [ "$$c_file" != "*.test.c" ] && [[ "$$c_file" != *.test.c ]]; then \
+	      clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); \
+	    fi; \
+	  done; \
+	fi
 
 .PHONY: check_banned
 check_banned:
@@ -58,7 +65,7 @@ $(BUILD)/$(TASK).debug: $(SRC_C) $(HDRS)
 	$(CC) $(DEBUGFLAGS) $(INCLUDES) $(SRC_C) -o $(BUILD)/$(TASK).debug
 
 .PHONY: build
-build: format cppcheck check_banned check_dynamic $(BIN)
+build: format clang-tidy check_banned check_dynamic $(BIN)
 
 .PHONY: debug
 debug: check_banned check_dynamic $(BUILD)/$(TASK).debug

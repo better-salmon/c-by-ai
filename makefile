@@ -1,6 +1,6 @@
 # Корневой Makefile — динамическое обнаружение задач
 # Использование:
-#   make build|test|format|cppcheck|clean [TOPIC=NN-topic-slug] [TASK=NN-NN]
+#   make build|test|format|clang-tidy|clean [TOPIC=NN-topic-slug] [TASK=NN-NN]
 # Примеры:
 #   make test
 #   make TOPIC=02-control-flow test
@@ -59,14 +59,14 @@ define RUN_IN_ALL
 	fi
 endef
 
-.PHONY: build test clean format cppcheck valgrind help format-fix debug
-build:   ; $(call RUN_IN_ALL,build)
-debug:   ; $(call RUN_IN_ALL,debug)
-test:    ; $(call RUN_IN_ALL,test)
-clean:   ; $(call RUN_IN_ALL,clean)
-format:  ; $(call RUN_IN_ALL,format)
-format-fix: ; $(call RUN_IN_ALL,format-fix)
-cppcheck:; $(call RUN_IN_ALL,cppcheck)
+.PHONY: build test clean format clang-tidy valgrind help format-fix debug
+build:     ; $(call RUN_IN_ALL,build)
+debug:     ; $(call RUN_IN_ALL,debug)
+test:      ; $(call RUN_IN_ALL,test)
+clean:     ; $(call RUN_IN_ALL,clean)
+format:    ; $(call RUN_IN_ALL,format)
+format-fix:; $(call RUN_IN_ALL,format-fix)
+clang-tidy:; $(call RUN_IN_ALL,clang-tidy)
 
 # valgrind не поддерживается на macOS
 valgrind:
@@ -82,7 +82,7 @@ help:
 	@echo "  clean      - Удалить все построенные файлы"
 	@echo "  format     - Проверить форматирование кода"
 	@echo "  format-fix - Исправить проблемы форматирования"
-	@echo "  cppcheck   - Статический анализ кода"
+	@echo "  clang-tidy - Статический анализ кода"
 	@echo "  valgrind   - Не доступен на macOS (используйте санитайзеры)"
 	@echo "  list       - Показать все найденные задачи"
 	@echo "  help       - Показать это сообщение"
@@ -105,7 +105,7 @@ help:
 	@echo "  3. Реализовать функции в .c файле"
 	@echo "  4. make TASK=XX-XX test - Проверить, что тесты проходят"
 	@echo "  5. make format-fix     - Исправить форматирование"
-	@echo "  6. make cppcheck       - Проверить статический анализ"
+	@echo "  6. make clang-tidy     - Проверить статический анализ"
 	@echo ""
 	@echo "ЗАМЕТКИ:"
 	@echo "  - Все команды поддерживают фильтрацию по TOPIC и TASK"

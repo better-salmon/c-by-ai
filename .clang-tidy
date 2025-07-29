@@ -1,0 +1,51 @@
+---
+# Конфигурация clang-tidy для проекта обучения C11
+# Эквивалент настроек cppcheck: warning,style,performance,portability
+
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  hicpp-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-implicit-widening-of-multiplication-result,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-init-variables,
+  -hicpp-signed-bitwise,
+  -misc-unused-parameters,
+  -modernize-macro-to-enum,
+  -modernize-use-trailing-return-type,
+  -readability-avoid-const-params-in-decls,
+  -readability-magic-numbers,
+  -readability-function-cognitive-complexity
+
+WarningsAsErrors: '*'
+
+CheckOptions:
+  # Настройки для читаемости
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.MacroCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+
+  # Настройки для производительности
+  - key: performance-move-const-arg.CheckTriviallyCopyableMove
+    value: false
+
+# Исключения для системных заголовков
+HeaderFilterRegex: '^(?!.*(third_party|/usr/|/System/)).*'
+
+# Использовать файл компиляции для определения флагов
+UseColor: true
