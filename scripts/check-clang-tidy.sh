@@ -7,7 +7,7 @@ if [ -d "/opt/homebrew/opt/llvm/bin" ]; then
 fi
 
 # Проверяем наличие clang-tidy
-if ! command -v clang-tidy &> /dev/null; then
+if ! command -v clang-tidy &>/dev/null; then
   echo "Ошибка: clang-tidy не найден. Установите его через:"
   echo "  brew install llvm"
   echo "или добавьте в PATH: export PATH=\"/opt/homebrew/opt/llvm/bin:\$PATH\""

@@ -59,7 +59,7 @@ define RUN_IN_ALL
 	fi
 endef
 
-.PHONY: build test clean format clang-tidy valgrind help format-fix debug
+.PHONY: build test clean format clang-tidy valgrind help format-fix debug shell-check shell-fix
 build:     ; $(call RUN_IN_ALL,build)
 debug:     ; $(call RUN_IN_ALL,debug)
 test:      ; $(call RUN_IN_ALL,test)
@@ -67,6 +67,15 @@ clean:     ; $(call RUN_IN_ALL,clean)
 format:    ; $(call RUN_IN_ALL,format)
 format-fix:; $(call RUN_IN_ALL,format-fix)
 clang-tidy:; $(call RUN_IN_ALL,clang-tidy)
+
+# Shell linting
+shell-check:
+	@echo "Проверка shell скриптов..."
+	@./scripts/check-shell.sh
+
+shell-fix:
+	@echo "Исправление shell скриптов..."
+	@./scripts/check-shell.sh --fix
 
 # valgrind не поддерживается на macOS
 valgrind:
@@ -76,16 +85,18 @@ help:
 	@echo "=== Система Сборки C Training ==="
 	@echo ""
 	@echo "ОСНОВНЫЕ ЦЕЛИ:"
-	@echo "  build      - Скомпилировать все задачи"
-	@echo "  debug      - Скомпилировать все задачи в режиме отладки"
-	@echo "  test       - Запустить все тесты с санитайзерами"
-	@echo "  clean      - Удалить все построенные файлы"
-	@echo "  format     - Проверить форматирование кода"
-	@echo "  format-fix - Исправить проблемы форматирования"
-	@echo "  clang-tidy - Статический анализ кода"
-	@echo "  valgrind   - Не доступен на macOS (используйте санитайзеры)"
-	@echo "  list       - Показать все найденные задачи"
-	@echo "  help       - Показать это сообщение"
+	@echo "  build       - Скомпилировать все задачи"
+	@echo "  debug       - Скомпилировать все задачи в режиме отладки"
+	@echo "  test        - Запустить все тесты с санитайзерами"
+	@echo "  clean       - Удалить все построенные файлы"
+	@echo "  format      - Проверить форматирование кода"
+	@echo "  format-fix  - Исправить проблемы форматирования"
+	@echo "  clang-tidy  - Статический анализ кода"
+	@echo "  shell-check - Проверить shell скрипты (shellcheck + shfmt)"
+	@echo "  shell-fix   - Исправить форматирование shell скриптов"
+	@echo "  valgrind    - Не доступен на macOS (используйте санитайзеры)"
+	@echo "  list        - Показать все найденные задачи"
+	@echo "  help        - Показать это сообщение"
 	@echo ""
 	@echo "ФИЛЬТРЫ:"
 	@echo "  TOPIC=название-темы    - Работать только с задачами конкретной темы"
@@ -98,6 +109,8 @@ help:
 	@echo "  make TASK=02-01 test                   - Тест конкретной задачи 02-01"
 	@echo "  make format-fix                        - Исправить форматирование всех файлов"
 	@echo "  make TOPIC=01-hello-world format-fix   - Форматирование только одной темы"
+	@echo "  make shell-check                       - Проверить все shell скрипты"
+	@echo "  make shell-fix                         - Исправить форматирование shell скриптов"
 	@echo ""
 	@echo "РАБОЧИЙ ПРОЦЕСС РАЗРАБОТКИ:"
 	@echo "  1. make list           - Посмотреть доступные задачи"
