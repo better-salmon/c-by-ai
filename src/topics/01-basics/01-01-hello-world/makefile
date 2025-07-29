@@ -41,7 +41,8 @@ clang-tidy:
 	elif [ -d "/usr/local/opt/llvm/bin" ]; then \
 	  CLANG_TIDY_PATH="/usr/local/opt/llvm/bin"; \
 	else \
-	  LLVM_DIR=$$(find /usr/lib -maxdepth 2 -name 'llvm-*' -type d 2>/dev/null | sort -V | tail -1); \
+	  LLVM_DIR=$$(find /usr/lib -maxdepth 2 -name 'llvm-*' -type d 2>/dev/null | \
+	    (sort -V 2>/dev/null || sort) | tail -1); \
 	  if [ -n "$$LLVM_DIR" ] && [ -d "$$LLVM_DIR/bin" ]; then \
 	    CLANG_TIDY_PATH="$$LLVM_DIR/bin"; \
 	  fi; \
