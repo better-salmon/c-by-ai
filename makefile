@@ -62,7 +62,7 @@ endef
 # Функции для выполнения команд для одной задачи
 define RUN_IN_TASK
 	@set -uo pipefail; \
-	if [ -z "$(TASK)" ]; then echo "Ошибка: TASK не указан. Используйте: make TASK=XX-XX $(1)"; exit 1; fi; \
+	if [ -z "$(TASK)" ]; then echo "Ошибка: TASK не указан. Используйте: make TASK=NN-NN $(1)"; exit 1; fi; \
 	task_dir=$$(find src/topics -mindepth 2 -maxdepth 2 -type d -name "$(TASK)-*" 2>/dev/null | head -1); \
 	if [ -z "$$task_dir" ]; then echo "Ошибка: Задача $(TASK) не найдена"; exit 1; fi; \
 	task_name=$$(basename $$task_dir); \
@@ -91,8 +91,8 @@ clean:     ; $(call RUN_IN_ALL,clean)
 format:    ; $(call RUN_IN_ALL,format)
 format-fix:; $(call RUN_IN_ALL,format-fix)
 clang-tidy:; $(call RUN_IN_ALL,clang-tidy)
-run:       ; @echo "Ошибка: run требует указания TASK. Используйте: make TASK=XX-XX run"; exit 1
-demo:      ; @echo "Ошибка: demo требует указания TASK. Используйте: make TASK=XX-XX demo"; exit 1
+run:       ; @echo "Ошибка: run требует указания TASK. Используйте: make TASK=NN-NN run"; exit 1
+demo:      ; @echo "Ошибка: demo требует указания TASK. Используйте: make TASK=NN-NN demo"; exit 1
 endif
 
 # Shell linting
@@ -126,8 +126,8 @@ help:
 	@echo "  help        - Показать это сообщение"
 	@echo ""
 	@echo "ЦЕЛИ ДЛЯ ОТДЕЛЬНЫХ ЗАДАЧ:"
-	@echo "  run         - Запустить решение задачи (требует TASK=XX-XX)"
-	@echo "  demo        - Запустить демонстрационную программу (требует TASK=XX-XX)"
+	@echo "  run         - Запустить решение задачи (требует TASK=NN-NN)"
+	@echo "  demo        - Запустить демонстрационную программу (требует TASK=NN-NN)"
 	@echo ""
 	@echo "ФИЛЬТРЫ:"
 	@echo "  TOPIC=название-темы    - Работать только с задачами конкретной темы"
@@ -147,15 +147,15 @@ help:
 	@echo ""
 	@echo "РАБОЧИЙ ПРОЦЕСС РАЗРАБОТКИ:"
 	@echo "  1. make list           - Посмотреть доступные задачи"
-	@echo "  2. make TASK=XX-XX test - Запустить тесты для задачи (должны провалиться)"
+	@echo "  2. make TASK=NN-NN test - Запустить тесты для задачи (должны провалиться)"
 	@echo "  3. Реализовать функции в .c файле"
-	@echo "  4. make TASK=XX-XX test - Проверить, что тесты проходят"
-	@echo "  5. make TASK=XX-XX run  - Запустить готовую программу"
+	@echo "  4. make TASK=NN-NN test - Проверить, что тесты проходят"
+	@echo "  5. make TASK=NN-NN run  - Запустить готовую программу"
 	@echo "  6. make format-fix     - Исправить форматирование"
 	@echo "  7. make clang-tidy     - Проверить статический анализ"
 	@echo ""
 	@echo "ЗАМЕТКИ:"
-	@echo "  - Команды run/demo требуют указания TASK=XX-XX"
+	@echo "  - Команды run/demo требуют указания TASK=NN-NN"
 	@echo "  - Остальные команды поддерживают фильтрацию по TOPIC и TASK"
 	@echo "  - Тесты компилируются с AddressSanitizer и UndefinedBehaviorSanitizer"
 	@echo "  - Используется стандарт C11 с флагами -Wall -Wextra -Werror"

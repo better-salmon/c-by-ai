@@ -82,9 +82,9 @@ make test           # Запуск тестов
 make debug          # Отладочная сборка
 
 # Запуск программ (из корня репозитория)
-make TASK=XX-XX run     # Запустить решение задачи
-make TASK=XX-XX test    # Запустить тесты задачи
-make TASK=XX-XX demo    # Запустить демо программу
+make TASK=NN-NN run     # Запустить решение задачи
+make TASK=NN-NN test    # Запустить тесты задачи
+make TASK=NN-NN demo    # Запустить демо программу
 
 # Качество кода
 make format-fix     # Автоматическое форматирование
