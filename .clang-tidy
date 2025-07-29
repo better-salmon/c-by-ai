@@ -14,16 +14,61 @@ Checks: >
   performance-*,
   portability-*,
   readability-*,
+
+  # === ОТКЛЮЧЕННЫЕ ПРОВЕРКИ ДЛЯ ОБРАЗОВАТЕЛЬНЫХ ЦЕЛЕЙ ===
+
+  # Отключаем bugprone-easily-swappable-parameters:
+  # В учебных функциях часто используются параметры одного типа (int a, int b)
+  # для демонстрации алгоритмов. Это нормально в образовательном контексте.
   -bugprone-easily-swappable-parameters,
+
+  # Отключаем bugprone-implicit-widening-of-multiplication-result:
+  # Студенты изучают основы арифметики. Предупреждения о расширении типов
+  # при умножении могут отвлекать от изучения базовых концепций.
   -bugprone-implicit-widening-of-multiplication-result,
+
+  # Отключаем cppcoreguidelines-avoid-magic-numbers:
+  # В учебных примерах магические числа (3, 5, 10) часто используются
+  # для простоты и наглядности. Константы могут усложнить понимание.
   -cppcoreguidelines-avoid-magic-numbers,
+
+  # Отключаем cppcoreguidelines-init-variables:
+  # Студенты должны сознательно изучать инициализацию переменных.
+  # Автоматическое требование инициализации может скрыть важные концепции.
   -cppcoreguidelines-init-variables,
+
+  # Отключаем hicpp-signed-bitwise:
+  # Битовые операции с знаковыми числами - часть изучения низкоуровневого программирования.
+  # Студенты должны понимать как это работает, даже если это не лучшая практика.
   -hicpp-signed-bitwise,
+
+  # Отключаем misc-unused-parameters:
+  # В учебных функциях параметры могут оставаться неиспользованными
+  # пока студент разрабатывает решение поэтапно.
   -misc-unused-parameters,
+
+  # Отключаем modernize-macro-to-enum:
+  # Студенты изучают C11, где макросы - важная часть языка.
+  # Предложения заменить их на enum могут сбивать с толку.
   -modernize-macro-to-enum,
+
+  # Отключаем modernize-use-trailing-return-type:
+  # Это синтаксис современного C++, не относящийся к изучению C11.
   -modernize-use-trailing-return-type,
+
+  # Отключаем readability-avoid-const-params-in-decls:
+  # Использование const в параметрах функций - хорошая практика,
+  # которую студенты должны изучать и применять.
   -readability-avoid-const-params-in-decls,
+
+  # Отключаем readability-magic-numbers:
+  # Дублирует cppcoreguidelines-avoid-magic-numbers.
+  # См. комментарий выше о магических числах в учебном коде.
   -readability-magic-numbers,
+
+  # Отключаем readability-function-cognitive-complexity:
+  # В учебных задачах функции могут быть сложными для демонстрации
+  # алгоритмов. Студенты учатся разбивать сложность самостоятельно.
   -readability-function-cognitive-complexity
 
 WarningsAsErrors: '*'

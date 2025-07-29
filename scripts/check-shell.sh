@@ -39,7 +39,7 @@ exit_code=0
 
 echo "🔍 Запуск shellcheck..."
 # Запуск shellcheck с исключениями как в CI
-if ! shellcheck -e SC1091,SC1117,SC2001,SC2034 "${SHELL_FILES[@]}"; then
+if ! shellcheck "${SHELL_FILES[@]}"; then
   echo "❌ shellcheck обнаружил проблемы"
   exit_code=1
 else

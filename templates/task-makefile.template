@@ -32,9 +32,28 @@ format-fix:
 
 .PHONY: clang-tidy
 clang-tidy:
-	@if [ -d "/opt/homebrew/opt/llvm/bin" ]; then export PATH="/opt/homebrew/opt/llvm/bin:$$PATH"; fi; \
+	@# Попытка найти clang-tidy в различных местах установки
+	@CLANG_TIDY_PATH=""; \
+	if [ -n "$$LLVM_PATH" ]; then \
+	  CLANG_TIDY_PATH="$$LLVM_PATH/bin"; \
+	elif [ -d "/opt/homebrew/opt/llvm/bin" ]; then \
+	  CLANG_TIDY_PATH="/opt/homebrew/opt/llvm/bin"; \
+	elif [ -d "/usr/local/opt/llvm/bin" ]; then \
+	  CLANG_TIDY_PATH="/usr/local/opt/llvm/bin"; \
+	elif [ -d "/usr/lib/llvm-*/bin" ]; then \
+	  CLANG_TIDY_PATH=$$(ls -d /usr/lib/llvm-*/bin 2>/dev/null | tail -1); \
+	fi; \
+	if [ -n "$$CLANG_TIDY_PATH" ]; then \
+	  export PATH="$$CLANG_TIDY_PATH:$$PATH"; \
+	fi; \
 	if ! command -v clang-tidy &> /dev/null; then \
-	  echo "Ошибка: clang-tidy не найден. Установите через: brew install llvm"; exit 1; \
+	  echo "Ошибка: clang-tidy не найден."; \
+	  echo "Попробуйте:"; \
+	  echo "  macOS: brew install llvm"; \
+	  echo "  Ubuntu/Debian: sudo apt install clang-tidy"; \
+	  echo "  Arch: sudo pacman -S clang"; \
+	  echo "  Или задайте LLVM_PATH=/path/to/llvm"; \
+	  exit 1; \
 	fi; \
 	exit_code=0; \
 	if ls *.c 1> /dev/null 2>&1; then \
