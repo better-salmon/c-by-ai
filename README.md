@@ -103,7 +103,7 @@ makefile                      # корневой
 scripts/
   create-task.sh
   check-format.sh
-  check-clang-tidy.sh
+  check-shell.sh
 src/
   topics/
     01-basics/

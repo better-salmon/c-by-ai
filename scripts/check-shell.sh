@@ -7,14 +7,17 @@ if [[ "${1:-}" == "--fix" ]]; then FIX=1; fi
 echo "Проверка shell скриптов..."
 
 # Поиск всех shell скриптов
-SHELL_FILES=$(find scripts -name "*.sh" -type f 2>/dev/null | sort)
+SHELL_FILES=()
+while IFS= read -r -d '' file; do
+  SHELL_FILES+=("$file")
+done < <(find scripts -name "*.sh" -type f -print0 2>/dev/null | sort -z)
 
-if [[ -z "$SHELL_FILES" ]]; then
+if [[ ${#SHELL_FILES[@]} -eq 0 ]]; then
   echo "Shell скрипты не найдены"
   exit 0
 fi
 
-echo "Найдены файлы: $SHELL_FILES"
+echo "Найдены файлы: ${SHELL_FILES[*]}"
 
 # Проверка наличия shellcheck
 if ! command -v shellcheck &>/dev/null; then
@@ -36,7 +39,7 @@ exit_code=0
 
 echo "🔍 Запуск shellcheck..."
 # Запуск shellcheck с исключениями как в CI
-if ! shellcheck -e SC1091,SC1117,SC2001,SC2034 $SHELL_FILES; then
+if ! shellcheck -e SC1091,SC1117,SC2001,SC2034 "${SHELL_FILES[@]}"; then
   echo "❌ shellcheck обнаружил проблемы"
   exit_code=1
 else
@@ -46,10 +49,10 @@ fi
 echo "🔍 Проверка форматирования shfmt..."
 if [[ "$FIX" -eq 1 ]]; then
   echo "🔧 Исправление форматирования..."
-  echo "$SHELL_FILES" | xargs -r shfmt -w -i 2 -ci
+  shfmt -w -i 2 -ci "${SHELL_FILES[@]}"
   echo "✅ Форматирование исправлено"
 else
-  if ! echo "$SHELL_FILES" | xargs -r shfmt -d -i 2 -ci; then
+  if ! shfmt -d -i 2 -ci "${SHELL_FILES[@]}"; then
     echo "❌ shfmt обнаружил проблемы форматирования"
     echo "💡 Для исправления запустите: $0 --fix"
     exit_code=1

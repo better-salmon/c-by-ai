@@ -36,13 +36,17 @@ clang-tidy:
 	if ! command -v clang-tidy &> /dev/null; then \
 	  echo "Ошибка: clang-tidy не найден. Установите через: brew install llvm"; exit 1; \
 	fi; \
+	exit_code=0; \
 	if ls *.c 1> /dev/null 2>&1; then \
 	  for c_file in *.c; do \
 	    if [[ "$$c_file" != *.test.c ]]; then \
-	      clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); \
+	      if ! clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); then \
+	        exit_code=1; \
+	      fi; \
 	    fi; \
 	  done; \
-	fi
+	fi; \
+	exit $$exit_code
 
 .PHONY: check_banned
 check_banned:
