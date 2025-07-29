@@ -46,8 +46,8 @@ echo -e "${BLUE}🔍 Запуск clang-tidy анализа...${NC}"
 exit_code=0
 if ls "$TARGET_DIR"/*.c 1>/dev/null 2>&1; then
   for c_file in "$TARGET_DIR"/*.c; do
-    # Пропускаем тестовые файлы
-    case "$c_file" in *.test.c) continue ;; esac
+    # Пропускаем тестовые файлы и демонстрационные файлы
+    case "$c_file" in *.test.c | *.demo.c) continue ;; esac
 
     if ! clang-tidy "$c_file" -- -std=c11 -Wall -Wextra -I. -I"$(dirname "$0")/../third_party/unity"; then
       exit_code=1

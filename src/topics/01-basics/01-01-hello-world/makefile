@@ -15,9 +15,11 @@ BUILD   := build
 SRC_C   := $(TASK).c
 TEST_C  := $(TASK).test.c
 HDRS    := $(wildcard *.h)
+DEMO_C  := $(wildcard *.demo.c)
 
 BIN     := $(BUILD)/$(TASK)
 TESTBIN := $(BUILD)/$(TASK).test
+DEMOBINS := $(patsubst %.demo.c,$(BUILD)/%.demo,$(DEMO_C))
 
 INCLUDES := -I. -I$(UNITY_I)
 
@@ -49,11 +51,16 @@ $(BUILD)/$(TASK).debug: $(SRC_C) $(HDRS)
 	@mkdir -p $(BUILD)
 	$(CC) $(DEBUGFLAGS) $(INCLUDES) $(SRC_C) -o $(BUILD)/$(TASK).debug
 
+# Демонстрационные программы с упрощенной компиляцией
+$(BUILD)/%.demo: %.demo.c $(HDRS)
+	@mkdir -p $(BUILD)
+	$(CC) -std=c11 -Wall -Wextra -O0 -g $(INCLUDES) $< -o $@
+
 .PHONY: build
-build: format clang-tidy check_banned check_dynamic $(BIN)
+build: format clang-tidy check_banned check_dynamic $(BIN) $(DEMOBINS)
 
 .PHONY: debug
-debug: check_banned check_dynamic $(BUILD)/$(TASK).debug
+debug: check_banned check_dynamic $(BUILD)/$(TASK).debug $(DEMOBINS)
 
 $(TESTBIN): $(SRC_C) $(TEST_C) $(HDRS)
 	@mkdir -p $(BUILD)

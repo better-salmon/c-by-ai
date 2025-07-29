@@ -88,8 +88,8 @@ CheckOptions:
   - key: performance-move-const-arg.CheckTriviallyCopyableMove
     value: false
 
-# Исключения для системных заголовков
-HeaderFilterRegex: '^(?!.*(third_party|/usr/|/System/)).*'
+# Исключения для системных заголовков и демонстрационных файлов
+HeaderFilterRegex: '^(?!.*(third_party|/usr/|/System/|\.demo\.)).*'
 
 # Использовать файл компиляции для определения флагов
 UseColor: true
