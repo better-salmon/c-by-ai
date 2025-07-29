@@ -1,4 +1,4 @@
-# (автогенерируемый) makefile для задачи
+# Автогенерируемый makefile для задачи
 SHELL := /bin/bash
 CC      ?= clang
 CFLAGS  ?= -std=c11 -Wall -Wextra -Werror -O0 -g
@@ -23,31 +23,23 @@ INCLUDES := -I. -I$(UNITY_I)
 
 .PHONY: format
 format:
-	@clang-format --dry-run --Werror $(SRC_C) $(TEST_C) $(HDRS) 2>/dev/null || (echo "Обнаружены проблемы форматирования. Запустите 'make format-fix' для исправления"; exit 1)
+	@$(ROOT)/scripts/format-task.sh .
 
 .PHONY: format-fix
 format-fix:
-	@clang-format -i $(SRC_C) $(TEST_C) $(HDRS)
-	@echo "Форматирование исправлено"
+	@$(ROOT)/scripts/format-task.sh . fix
 
-.PHONY: cppcheck
-cppcheck:
-	@cppcheck --std=c11 --quiet --error-exitcode=1 \
-	  --enable=warning,style,performance,portability \
-	  --suppress=missingIncludeSystem \
-	  .
+.PHONY: clang-tidy
+clang-tidy:
+	@$(ROOT)/scripts/check-clang-tidy.sh .
 
 .PHONY: check_banned
 check_banned:
-	@if grep -R -nE '\bgets\s*\(' -- *.c *.h >/dev/null 2>&1; then \
-	  echo "Ошибка: обнаружена запрещённая функция 'gets'."; exit 1; fi
+	@$(ROOT)/scripts/check-banned.sh .
 
 .PHONY: check_dynamic
 check_dynamic:
-	@if [ "$(DYN_ALLOC_ALLOWED)" = "0" ]; then \
-	  if grep -R -nE '\b(malloc|calloc|realloc|free)\s*\(' -- *.c *.h >/dev/null 2>&1; then \
-	    echo "Ошибка: использована динамическая память, но она не разрешена для этой задачи."; exit 1; fi; \
-	fi
+	@$(ROOT)/scripts/check-dynamic.sh .
 
 $(BIN): $(SRC_C) $(HDRS)
 	@mkdir -p $(BUILD)
@@ -58,7 +50,7 @@ $(BUILD)/$(TASK).debug: $(SRC_C) $(HDRS)
 	$(CC) $(DEBUGFLAGS) $(INCLUDES) $(SRC_C) -o $(BUILD)/$(TASK).debug
 
 .PHONY: build
-build: format cppcheck check_banned check_dynamic $(BIN)
+build: format clang-tidy check_banned check_dynamic $(BIN)
 
 .PHONY: debug
 debug: check_banned check_dynamic $(BUILD)/$(TASK).debug
@@ -74,8 +66,7 @@ $(TESTBIN): $(SRC_C) $(TEST_C) $(HDRS)
 
 .PHONY: test
 test: build $(TESTBIN)
-	@if [ ! -f "$(BIN)" ]; then echo "Ошибка: исполняемый файл $(BIN) не найден. Запустите 'make build' сначала."; exit 1; fi
-	@if [ ! -x "$(BIN)" ]; then echo "Ошибка: файл $(BIN) не является исполняемым."; exit 1; fi
+	@$(ROOT)/scripts/check-executable.sh $(BIN)
 	./$(TESTBIN)
 
 .PHONY: valgrind
