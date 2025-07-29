@@ -26,19 +26,18 @@ for makefile_path in $TASK_MAKEFILES; do
   task_dir=$(dirname "$makefile_path")
   echo "clang-tidy -> $task_dir"
 
-  # Переходим в каталог задачи
-  cd "$task_dir"
+  # Используем подоболочку для изоляции изменений директории
+  (
+    cd "$task_dir"
 
-  # Находим все C файлы для анализа
-  c_files=$(find . -maxdepth 1 -name "*.c" -type f | grep -v ".test.c" || true)
+    # Находим все C файлы для анализа
+    c_files=$(find . -maxdepth 1 -name "*.c" -type f | grep -v ".test.c" || true)
 
-  if [ -n "$c_files" ]; then
-    # Запускаем clang-tidy для каждого C файла
-    for c_file in $c_files; do
-      clang-tidy "$c_file" -- -std=c11 -Wall -Wextra -I. -I../../../../third_party/unity -I../../../../third_party/io_test
-    done
-  fi
-
-  # Возвращаемся в корневой каталог
-  cd - > /dev/null
+    if [ -n "$c_files" ]; then
+      # Запускаем clang-tidy для каждого C файла
+      for c_file in $c_files; do
+        clang-tidy "$c_file" -- -std=c11 -Wall -Wextra -I. -I../../../../third_party/unity -I../../../../third_party/io_test
+      done
+    fi
+  )
 done

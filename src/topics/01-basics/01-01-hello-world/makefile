@@ -38,7 +38,7 @@ clang-tidy:
 	fi; \
 	if ls *.c 1> /dev/null 2>&1; then \
 	  for c_file in *.c; do \
-	    if [ "$$c_file" != "*.test.c" ] && [[ "$$c_file" != *.test.c ]]; then \
+	    if [[ "$$c_file" != *.test.c ]]; then \
 	      clang-tidy "$$c_file" -- -std=c11 -Wall -Wextra $(INCLUDES); \
 	    fi; \
 	  done; \
