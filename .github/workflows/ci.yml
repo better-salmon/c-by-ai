@@ -20,20 +20,20 @@ jobs:
       - name: Install tools
         run: |
           brew update
-          brew install cppcheck clang-format
+          brew install llvm clang-format
 
       - name: Verify tools installation
         run: |
           echo "=== Проверка установленных инструментов ==="
           clang --version
-          cppcheck --version
+          /opt/homebrew/opt/llvm/bin/clang-tidy --version
           clang-format --version
 
       - name: Check clang-format
         run: scripts/check-format.sh
 
-      - name: cppcheck
-        run: scripts/check-cppcheck.sh
+      - name: clang-tidy
+        run: scripts/check-clang-tidy.sh
 
       - name: Build all
         run: make build
