@@ -1,0 +1,61 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-O0",
+      "-g",
+      "-I.",
+      "-I/Users/arsenii/work/personal/better-salmon/c-by-ai/third_party/io_test",
+      "-o",
+      "build/01-01-hello-world",
+      "01-01-hello-world.solution.c"
+    ],
+    "directory": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-01-hello-world",
+    "file": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-01-hello-world/01-01-hello-world.solution.c",
+    "output": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-01-hello-world/build/01-01-hello-world"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-O0",
+      "-g",
+      "-I.",
+      "-I/Users/arsenii/work/personal/better-salmon/c-by-ai/third_party/io_test",
+      "-o",
+      "build/01-01-hello-world.demo",
+      "01-01-hello-world.demo.c"
+    ],
+    "directory": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-01-hello-world",
+    "file": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-01-hello-world/01-01-hello-world.demo.c",
+    "output": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-01-hello-world/build/01-01-hello-world.demo"
+  },
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-c",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-O0",
+      "-g",
+      "-I.",
+      "-I/Users/arsenii/work/personal/better-salmon/c-by-ai/third_party/io_test",
+      "-o",
+      "build/01-02-user-input",
+      "01-02-user-input.solution.c"
+    ],
+    "directory": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-02-user-input",
+    "file": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-02-user-input/01-02-user-input.solution.c",
+    "output": "/Users/arsenii/work/personal/better-salmon/c-by-ai/src/topics/01-basics/01-02-user-input/build/01-02-user-input"
+  }
+]

@@ -1,0 +1,4 @@
+If:
+  PathMatch: .*\.demo\.c$
+Diagnostics:
+  Suppress: "*"

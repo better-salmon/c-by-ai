@@ -49,7 +49,7 @@ if ls "$TARGET_DIR"/*.c 1>/dev/null 2>&1; then
     # Пропускаем тестовые файлы и демонстрационные файлы
     case "$c_file" in *.test.c | *.demo.c) continue ;; esac
 
-    if ! clang-tidy "$c_file" -- -std=c11 -Wall -Wextra -I. -I"$(dirname "$0")/../third_party/unity"; then
+    if ! clang-tidy "$c_file" -- -std=c11 -Wall -Wextra -I. -I"$(dirname "$0")/../third_party/io_test"; then
       exit_code=1
     fi
   done

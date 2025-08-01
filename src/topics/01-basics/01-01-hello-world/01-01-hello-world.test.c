@@ -1,4 +1,4 @@
-#include "../../../../third_party/io_test/io_test.h"
+#include "io_test.h"
 
 int main(void) {
   // Тест 1: Проверка правильного вывода "Hello, World!"
