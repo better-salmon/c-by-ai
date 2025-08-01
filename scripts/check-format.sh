@@ -13,7 +13,7 @@ if [[ "${1:-}" == "--fix" ]]; then FIX=1; fi
 
 echo -e "${BLUE}🔍 Проверка форматирования кода...${NC}"
 
-FILES=$(find src -type f \( -name "*.c" -o -name "*.h" \) 2>/dev/null | sort)
+FILES=$(find src -type f \( -name "*.c" -o -name "*.h" \) ! -name "*.demo.c" 2>/dev/null | sort)
 
 if [[ -z "$FILES" ]]; then
   echo -e "${YELLOW}💡 Файлы C/H для форматирования не найдены${NC}"

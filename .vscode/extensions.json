@@ -5,6 +5,7 @@
     "ms-vscode.cpptools-themes",
     "ms-vscode.cmake-tools",
     "ms-vscode.makefile-tools",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "llvm-vs-code-extensions.vscode-clangd"
   ]
 }

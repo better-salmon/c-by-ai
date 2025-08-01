@@ -9,10 +9,10 @@ DYN_ALLOC_ALLOWED := $(shell cat .dyn_alloc_allowed 2>/dev/null || echo 0)
 
 TASK    := $(notdir $(CURDIR))
 ROOT    := $(abspath $(CURDIR)/../../../../)
-UNITY_I := $(ROOT)/third_party/unity
+IO_TEST_I := $(ROOT)/third_party/io_test
 BUILD   := build
 
-SRC_C   := $(TASK).c
+SRC_C   := $(TASK).solution.c
 TEST_C  := $(TASK).test.c
 HDRS    := $(wildcard *.h)
 DEMO_C  := $(wildcard *.demo.c)
@@ -21,7 +21,7 @@ BIN     := $(BUILD)/$(TASK)
 TESTBIN := $(BUILD)/$(TASK).test
 DEMOBINS := $(patsubst %.demo.c,$(BUILD)/%.demo,$(DEMO_C))
 
-INCLUDES := -I. -I$(UNITY_I)
+INCLUDES := -I. -I$(IO_TEST_I)
 
 .PHONY: format
 format:
@@ -64,12 +64,7 @@ debug: check_banned check_dynamic $(BUILD)/$(TASK).debug $(DEMOBINS)
 
 $(TESTBIN): $(SRC_C) $(TEST_C) $(HDRS)
 	@mkdir -p $(BUILD)
-	@if grep -q "unity.h" $(TEST_C); then \
-	  $(CC) $(CFLAGS) $(SANFLAGS) $(INCLUDES) -DUNIT_TEST \
-	    $(SRC_C) $(UNITY_I)/unity.c $(TEST_C) -o $(TESTBIN); \
-	else \
-	  $(CC) $(CFLAGS) $(SANFLAGS) $(INCLUDES) $(TEST_C) -o $(TESTBIN); \
-	fi
+	$(CC) $(CFLAGS) $(SANFLAGS) $(INCLUDES) $(TEST_C) -o $(TESTBIN)
 
 .PHONY: test
 test: build $(TESTBIN)
@@ -79,6 +74,23 @@ test: build $(TESTBIN)
 .PHONY: valgrind
 valgrind: $(TESTBIN)
 	@echo "valgrind не доступен на macOS. Используйте санитайзеры (включены в 'make test')."
+
+.PHONY: run
+run: build
+	@echo "==> Запуск программы $(TASK)..."
+	./$(BIN)
+
+.PHONY: demo
+demo: $(DEMOBINS)
+	@if [ -z "$(DEMOBINS)" ]; then \
+	  echo "Демонстрационные программы не найдены. Файлы *.demo.c отсутствуют."; \
+	  exit 1; \
+	fi; \
+	for demo in $(DEMOBINS); do \
+	  echo "==> Запуск демо: $$demo"; \
+	  ./$$demo; \
+	  echo ""; \
+	done
 
 .PHONY: clean
 clean:
